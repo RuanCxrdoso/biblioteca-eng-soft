@@ -130,7 +130,7 @@ Cada livro pode ter **vários exemplares**, identificados por código e status (
 
 ## 🧑‍🏫 Professor Responsável
 
-**Carlos Lucena** – MATA62 – Universidade Federal da Bahia (UFBA)
+**Claudio Nogueira Sant Anna** – MATA62 – Universidade Federal da Bahia (UFBA)
 
 ---
 
