@@ -1,5 +1,6 @@
 package src.funcionalidades.usuarios.validadores;
 
+import src.funcionalidades.usuarios.console.Console;
 import src.funcionalidades.usuarios.validadores.verificadores.FabricaVerificadores;
 import src.interfaces.IAluno;
 import src.interfaces.ILivro;
