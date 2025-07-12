@@ -2,6 +2,7 @@ package src.funcionalidades.usuarios;
 
 import java.util.ArrayList;
 
+import src.funcionalidades.usuarios.console.Console;
 import src.funcionalidades.usuarios.limitacoes.MaximoLimiteEmprestimos;
 import src.funcionalidades.usuarios.limitacoes.MaximoLimiteTempo;
 import src.interfaces.IAluno;
