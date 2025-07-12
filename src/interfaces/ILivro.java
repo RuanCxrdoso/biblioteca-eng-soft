@@ -10,4 +10,5 @@ public interface ILivro {
     public List<IExemplar> obterExemplares();
     public IExemplar obterExemplarDisponivel();
     public List<IReserva> obterReservas();
+    public boolean temExemplarNaoReservado();
 }

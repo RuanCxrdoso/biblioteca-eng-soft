@@ -2,14 +2,14 @@ package src.funcionalidades.usuarios.limitacoes;
 
 public enum MaximoLimiteEmprestimos {
     ALUNOGRADUACAO (2), 
-    ALUNOPOSGRADUCAO (3);
+    ALUNOPOSGRADUACAO (3);
 
     private final int dias;
-    MaximoLimiteEmprestimos(int qntdDias){
-        this.dias = qntdDias;
+    MaximoLimiteEmprestimos(int qntd){
+        this.dias = qntd;
     }
 
-    public int obterQntdDias(){
+    public int obterQntd(){
         return this.dias;
     }
 }
