@@ -1,7 +1,13 @@
 package src.interfaces;
 
+import java.util.List;
 public interface ILivro {
     public String obterTitulo();
-    public boolean temExemplarNaoReservado();
-    // Adicionar outros métodos relevantes para a interface ILivro
+    public String obterCodigo();
+    public String obterEditora();
+    public String obterAutor();
+    public int obterAnoPublicacao();
+    public List<IExemplar> obterExemplares();
+    public IExemplar obterExemplarDisponivel();
+    public List<IReserva> obterReservas();
 }
