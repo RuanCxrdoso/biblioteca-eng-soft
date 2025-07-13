@@ -5,6 +5,7 @@ public interface ILivro {
     public String obterTitulo();
     public String obterCodigo();
     public String obterEditora();
+    public String obterEdicao();
     public String obterAutor();
     public int obterAnoPublicacao();
     public List<IExemplar> obterExemplares();
