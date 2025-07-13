@@ -1,5 +1,7 @@
 package src.interfaces;
 
+import src.funcionalidades.Livro;
+
 public interface IValidadorEmprestimo {
-  public boolean validarEmprestimo(IUsuario usuario, ILivro livro);
+  public boolean validarEmprestimo(IUsuario usuario, Livro livro);
 }

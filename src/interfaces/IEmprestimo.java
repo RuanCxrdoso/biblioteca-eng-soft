@@ -1,13 +1,16 @@
-package src.interfaces;
+// package src.interfaces;
 
-import java.time.LocalDate;
+// import java.time.LocalDate;
 
-public interface IEmprestimo {
-  public String obterNomeUsuario();
-  public LocalDate obterDataEmprestimo();
-  public LocalDate obterDataRetorno();
-  public IExemplar obterExemplar();
-  public void excluirExemplar();
-  public ILivro obterLivro();
-  public String obterTituloLivro();
-}
+// import src.funcionalidades.Exemplar;
+// import src.funcionalidades.Livro;
+
+// public interface Emprestimo {
+//   public String obterNomeUsuario();
+//   public LocalDate obterDataEmprestimo();
+//   public LocalDate obterDataRetorno();
+//   public Exemplar obterExemplar();
+//   public void excluirExemplar();
+//   public Livro obterLivro();
+//   public String obterTituloLivro();
+// }

@@ -2,18 +2,15 @@ package src.funcionalidades;
 
 import java.time.LocalDate;
 
-import src.interfaces.IEmprestimo;
-import src.interfaces.IExemplar;
-import src.interfaces.ILivro;
 import src.interfaces.IUsuario;
 
-public class Emprestimo implements IEmprestimo {
+public class Emprestimo {
     private IUsuario usuario;
-    private IExemplar exemplar;
+    private Exemplar exemplar;
     private LocalDate dataEmprestimo;
     private LocalDate dataRetorno;
 
-    public Emprestimo(IExemplar exemplar, IUsuario usuario, int tempoMaximoEmprestimo) {
+    public Emprestimo(Exemplar exemplar, IUsuario usuario, int tempoMaximoEmprestimo) {
         this.exemplar = exemplar;
         this.usuario = usuario;
         this.dataEmprestimo = LocalDate.now();
@@ -32,7 +29,7 @@ public class Emprestimo implements IEmprestimo {
         return this.dataRetorno;
     }
 
-    public IExemplar obterExemplar() {
+    public Exemplar obterExemplar() {
         return this.exemplar;
     }
 
@@ -40,7 +37,7 @@ public class Emprestimo implements IEmprestimo {
         this.exemplar.removerEmprestimo();
     }
 
-    public ILivro obterLivro() {
+    public Livro obterLivro() {
         return this.exemplar.obterLivro();
     }
 

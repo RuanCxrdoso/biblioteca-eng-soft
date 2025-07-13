@@ -2,20 +2,19 @@ package src.funcionalidades;
 
 import java.util.ArrayList;
 import java.util.List;
-import src.interfaces.IExemplar;
-import src.interfaces.ILivro;
+import src.funcionalidades.Livro;
 import src.interfaces.IObserver;
 import src.interfaces.IReserva;
 import src.interfaces.ISubject;
 
-public class Livro implements ILivro, ISubject {
+public class Livro implements ISubject {
     private String codigo;
     private String titulo;
     private String editora;
     private String autores;
     private String edicao;
     private int anoPublicacao;
-    private List<IExemplar> listaExemplares;
+    private List<Exemplar> listaExemplares;
     private List<IReserva> listaReservas;
     private List<IObserver> observadores;
 
@@ -31,50 +30,48 @@ public class Livro implements ILivro, ISubject {
         this.observadores = new ArrayList<>();
     }
 
-    @Override
     public String obterCodigo() {
         return codigo;
     }
 
-    @Override
     public String obterTitulo() {
         return titulo;
     }
 
-    @Override
     public String obterEditora() {
         return editora;
     }
 
-    @Override
     public String obterEdicao() {
         return edicao;
     }
 
-
-    @Override
     public String obterAutor() {
         return autores;
     }
 
-    @Override
     public int obterAnoPublicacao() {
         return anoPublicacao;
     }
 
-    @Override
-    public List<IExemplar> obterExemplares() {
+    public List<Exemplar> obterExemplares() {
         return new ArrayList<>(listaExemplares);
     }
 
-    @Override
+    public int obterQntdExemplares() {
+        return this.listaExemplares.size();
+    }
+
+    public int obterQntdReservas() {
+        return this.listaReservas.size();
+    }
+
     public List<IReserva> obterReservas() {
         return new ArrayList<>(listaReservas);
     }
 
-    @Override
     public boolean temExemplarNaoReservado() {
-        for (IExemplar exemplar : listaExemplares) {
+        for (Exemplar exemplar: listaExemplares) {
             if (exemplar.obterStatus()) {
                 return true;
             }
@@ -82,8 +79,16 @@ public class Livro implements ILivro, ISubject {
         return false;
     }
 
-    public IExemplar obterExemplarDisponivel() {
-        for (IExemplar exemplar : listaExemplares) {
+    public void definirExemplarDisponivel(String codigoExemplar) {
+        for (Exemplar exemplar : listaExemplares) {
+            if (exemplar.obterCodigo().equals(codigoExemplar)) {
+                exemplar.setStatus(false);
+            }
+        }
+    }
+
+    public Exemplar obterExemplarDisponivel() {
+        for (Exemplar exemplar : listaExemplares) {
             if (exemplar.obterStatus()) {
                 return exemplar;
             }
@@ -91,7 +96,7 @@ public class Livro implements ILivro, ISubject {
         return null;
     }
 
-    public void adicionarExemplar(IExemplar exemplar) {
+    public void adicionarExemplar(Exemplar exemplar) {
         this.listaExemplares.add(exemplar);
     }
 
@@ -102,17 +107,14 @@ public class Livro implements ILivro, ISubject {
         }
     }
 
-    @Override
     public void registrarObserver(IObserver observer) {
         observadores.add(observer);
     }
 
-    @Override
     public void removerObserver(IObserver observer) {
         observadores.remove(observer);
     }
 
-    @Override
     public void notificarObservadores() {
         for (IObserver observer : observadores) {
             observer.notificar();
@@ -125,5 +127,15 @@ public class Livro implements ILivro, ISubject {
 
     public int quantidadeReservas() {
         return listaReservas.size();
+    }
+
+    public boolean temExemplarDisponivel() {
+        for (Exemplar exemplar : listaExemplares) {
+            if (exemplar.obterStatus()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

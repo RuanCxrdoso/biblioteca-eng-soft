@@ -2,16 +2,14 @@ package src.biblioteca;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
 import src.funcionalidades.Emprestimo;
 import src.funcionalidades.Exemplar;
-import src.funcionalidades.Reserva;
+import src.funcionalidades.Livro;
 import src.funcionalidades.usuarios.AlunoGraduacao;
 import src.funcionalidades.usuarios.AlunoPosGraduacao;
 import src.funcionalidades.usuarios.Professor;
-import src.interfaces.IEmprestimo;
-import src.interfaces.ILivro;
+import src.interfaces.IObserver;
 import src.interfaces.IReserva;
 import src.interfaces.IUsuario;
 
@@ -20,7 +18,7 @@ public class Biblioteca {
 
     private static Biblioteca biblioteca;
     private List<IUsuario> usuarios = new ArrayList<IUsuario>();
-    private List<ILivro> livros = new ArrayList<ILivro>();
+    private List<Livro> livros = new ArrayList<Livro>();
 
     public static Biblioteca obterInstanciaUnica() {
         if (biblioteca == null) {
@@ -45,21 +43,21 @@ public class Biblioteca {
         livros.add(new Livro("400", "Design Patterns: Element of Reusable Object-Oriented Software", "Addison Wesley Professional","1°","Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides", 1994));
         livros.add(new Livro("401", "UML Distilled: A Brief Guide to the Standard Object Modeling Language", "Addison Wesley Professional","3°","Martin Fowler", 2003));
         
-        livros.get(0).addExemplar(new Exemplar("01", livros.get(0)));
-        livros.get(0).addExemplar(new Exemplar("02", livros.get(0)));
-        livros.get(1).addExemplar(new Exemplar("03", livros.get(1)));
-        livros.get(2).addExemplar(new Exemplar("04", livros.get(2)));
-        livros.get(3).addExemplar(new Exemplar("05", livros.get(3)));
-        livros.get(4).addExemplar(new Exemplar("06", livros.get(4)));
-        livros.get(4).addExemplar(new Exemplar("07", livros.get(4)));
-        livros.get(6).addExemplar(new Exemplar("08", livros.get(6)));
-        livros.get(6).addExemplar(new Exemplar("09", livros.get(6)));
-        livros.get(6).addExemplar(new Exemplar("10", livros.get(6)));   
+        livros.get(0).adicionarExemplar(new Exemplar("01", livros.get(0)));
+        livros.get(0).adicionarExemplar(new Exemplar("02", livros.get(0)));
+        livros.get(1).adicionarExemplar(new Exemplar("03", livros.get(1)));
+        livros.get(2).adicionarExemplar(new Exemplar("04", livros.get(2)));
+        livros.get(3).adicionarExemplar(new Exemplar("05", livros.get(3)));
+        livros.get(4).adicionarExemplar(new Exemplar("06", livros.get(4)));
+        livros.get(4).adicionarExemplar(new Exemplar("07", livros.get(4)));
+        livros.get(6).adicionarExemplar(new Exemplar("08", livros.get(6)));
+        livros.get(6).adicionarExemplar(new Exemplar("09", livros.get(6)));
+        livros.get(6).adicionarExemplar(new Exemplar("10", livros.get(6)));   
     }
 
     public void solicitarEmprestimo(String codigoUsuario, String codigoLivro) {
         IUsuario usuario = obterUsuario(codigoUsuario);
-        ILivro livro = obterLivro(codigoLivro);
+        Livro livro = obterLivro(codigoLivro);
 
         String mensagem;
 
@@ -78,7 +76,7 @@ public class Biblioteca {
   
     public void reservarLivro(String codigoUsuario, String codigoLivro) {
         IUsuario usuario = obterUsuario(codigoUsuario);
-        ILivro livro = obterLivro(codigoLivro);
+        Livro livro = obterLivro(codigoLivro);
         String mensagem;
     
         if (livro.temExemplarDisponivel()) {
@@ -110,7 +108,7 @@ public class Biblioteca {
 
     public void retornarLivro(String codigoUsuario, String codigoLivro) {
         IUsuario usuario = obterUsuario(codigoUsuario);
-        ILivro livro = obterLivro(codigoLivro);
+        Livro livro = obterLivro(codigoLivro);
         String codigoExemplar = usuario.obterExemplarEmprestado(livro);
         String mensagem;
 
@@ -127,7 +125,7 @@ public class Biblioteca {
     }
 
     public void consultarLivro(String codigoLivro) {
-        ILivro livro = obterLivro(codigoLivro);
+        Livro livro = obterLivro(codigoLivro);
         int qntdReservas = livro.obterQntdReservas();
 
         if (qntdReservas == 0) {
@@ -156,7 +154,7 @@ public class Biblioteca {
     public void consultarAluno(String codigoUsuario) {
         IUsuario usuario = obterUsuario(codigoUsuario);
 
-        List<IEmprestimo> emprestimos = usuario.obterEmprestimosSolicitados();
+        List<Emprestimo> emprestimos = usuario.obterEmprestimosSolicitados();
 
         if (emprestimos == null || emprestimos.isEmpty()) {
             Console.mostrarMensagem("\nO usuário não possui empréstimos.");
@@ -164,7 +162,7 @@ public class Biblioteca {
             Console.mostrarMensagem("\nEmpréstimos:\nTítulo | Data de Empréstimo | Status | Data de Devolução");
 
             int i = 1;
-            for (IEmprestimo emprestimo : emprestimos) {
+            for (Emprestimo emprestimo : emprestimos) {
                 Console.mostrarMensagem(i + ". " + emprestimo.obterTituloLivro() + " | " + emprestimo.obterDataEmprestimo() + " | " + usuario.obterStatusEmprestimo(emprestimo) + " | " + emprestimo.obterDataRetorno());
                 i++;
             }
@@ -185,15 +183,15 @@ public class Biblioteca {
     }
 
     public void consultarNotificacoesProfessor(String codigoUsuario) {
-        Observer usuario = (Observer) obterUsuario(codigoUsuario);
+        IObserver usuario = (IObserver) obterUsuario(codigoUsuario);
 
-        String mensagem = "\nNúmero de notificações do professor " + usuario.toString() + ": " + usuario.obterQntdNotificacoes();
+        String mensagem = "\nNúmero de notificações do professor " + usuario.toString() + ": " + usuario.obterQntdTotalNotificacoes();
 
         Console.mostrarMensagem(mensagem);
     }
 
-    public ILivro obterLivro(String codigoLivro) {
-        for (ILivro livro: livros) {
+    public Livro obterLivro(String codigoLivro) {
+        for (Livro livro: livros) {
             if (livro.obterCodigo().equals(codigoLivro)) {
                 return livro;
             }
@@ -214,8 +212,8 @@ public class Biblioteca {
 
     public void registrarObservador(String codigoUsuario, String codigoLivro) {
         IUsuario usuario = obterUsuario(codigoUsuario);
-        ILivro livro = obterLivro(codigoLivro);
+        Livro livro = obterLivro(codigoLivro);
 
-        livro.registrarObservador(usuario);
+        livro.registrarObserver((IObserver) usuario);
     }
 }

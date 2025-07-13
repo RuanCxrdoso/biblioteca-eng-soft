@@ -1,9 +1,9 @@
 package src.funcionalidades.usuarios.validadores;
 
 import src.biblioteca.Console;
+import src.funcionalidades.Livro;
 import src.funcionalidades.usuarios.validadores.verificadores.FabricaVerificadores;
 import src.interfaces.IAluno;
-import src.interfaces.ILivro;
 import src.interfaces.IUsuario;
 import src.interfaces.IValidadorEmprestimo;
 import src.interfaces.IVerificadorAtraso;
@@ -24,7 +24,7 @@ public class ValidadorEmprestimoAluno implements IValidadorEmprestimo {
     this.verificadorEmprestimosVigentes = FabricaVerificadores.obterVerificadorEmprestimosVigentes();
   }
 
-  public boolean validarEmprestimo(IUsuario usuario, ILivro livro) {
+  public boolean validarEmprestimo(IUsuario usuario, Livro livro) {
     if (verificadorAtraso.verificarAtraso(usuario)) {
       Console.mostrarMensagem("\nO usuário " + usuario.obterNome() + " possui emprestimo com atraso de devolução!");
 

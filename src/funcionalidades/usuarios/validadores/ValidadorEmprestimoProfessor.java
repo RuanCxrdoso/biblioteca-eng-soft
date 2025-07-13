@@ -1,10 +1,10 @@
 package src.funcionalidades.usuarios.validadores;
 
 import java.util.Optional;
-import src.funcionalidades.usuarios.console.Console;
+import src.biblioteca.Console;
+import src.funcionalidades.Exemplar;
+import src.funcionalidades.Livro;
 import src.funcionalidades.usuarios.validadores.verificadores.FabricaVerificadores;
-import src.interfaces.IExemplar;
-import src.interfaces.ILivro;
 import src.interfaces.IUsuario;
 import src.interfaces.IValidadorEmprestimo;
 import src.interfaces.IVerificadorAtraso;
@@ -18,14 +18,14 @@ public class ValidadorEmprestimoProfessor implements IValidadorEmprestimo{
     }
 
     @Override
-    public boolean validarEmprestimo(IUsuario usuario, ILivro livro) {
+    public boolean validarEmprestimo(IUsuario usuario, Livro livro) {
 
         if (verificadorAtraso.verificarAtraso(usuario)) {
             Console.mostrarMensagem("\nO usuário " + usuario.obterNome()+ " possui empréstimo em atraso! Impossível realizar novo empréstimo.");
             return false;
         }
 
-        Optional<IExemplar> disp = livro.obterExemplares().stream().filter(IExemplar::obterStatus).findFirst();
+        Optional<Exemplar> disp = livro.obterExemplares().stream().filter(Exemplar::obterStatus).findFirst();
 
         if (!disp.isPresent()) {
             Console.mostrarMensagem("\nNão há exemplar disponível do livro '"+ livro.obterTitulo() + "' para o Professor "+ usuario.obterNome() + "!");
