@@ -22,7 +22,9 @@ public class Professor implements IUsuario, IObserver {
     private int tempoMaximoEmprestimoEmDias;
     private IValidadorEmprestimo validadorEmprestimo;
     private ArrayList<IReserva> reservasSolicitadas;
-    private ArrayList<IEmprestimo> emprestimosRealizados;
+    private ArrayList<IReserva> reservasAtivas;
+    private ArrayList<IEmprestimo> emprestimosSolicitados;
+    private ArrayList<IEmprestimo> emprestimosAtivos;
     private int totalNotificacoes = 0;
 
     public Professor( String id, String nome){
@@ -31,7 +33,9 @@ public class Professor implements IUsuario, IObserver {
         this.tempoMaximoEmprestimoEmDias = MaximoLimiteTempo.PROFESSOR.obterQntdDias();
         this.validadorEmprestimo = FabricaValidadorEmprestimo.obterValidadorEmprestimoProfessor();
         this.reservasSolicitadas = new ArrayList<>();
-        this.emprestimosRealizados = new ArrayList<>();
+        this.reservasAtivas = new ArrayList<>();
+        this.emprestimosSolicitados = new ArrayList<>();
+        this.emprestimosAtivos = new ArrayList<>();
     }
 
     @Override
@@ -49,7 +53,9 @@ public class Professor implements IUsuario, IObserver {
             IEmprestimo novoEmprestimo = FabricaFuncionalidades.criaEmprestimo(exemplar, this, tempoMaximoEmprestimoEmDias);
 
             exemplar.adicionarEmprestimo(novoEmprestimo); 
-            emprestimosRealizados.add(novoEmprestimo);
+            this.emprestimosSolicitados.add(novoEmprestimo);
+            this.emprestimosAtivos.add(novoEmprestimo);
+            this.cancelarReserva(livro);
 
             Console.mostrarMensagem("\nEmpréstimo do livro '" + livro.obterTitulo() + "' (exemplar: " + exemplar.obterCodigo() + ") para Professor " + nome + " realizado. Devolução prevista para: " + novoEmprestimo.obterDataRetorno() + ".");
             return true;
@@ -63,7 +69,7 @@ public class Professor implements IUsuario, IObserver {
 
     @Override
     public boolean devolverLivro(ILivro livro) {
-        Optional<IEmprestimo> emprestimoVigenteOpt = emprestimosRealizados.stream().filter(e -> e.obterLivro().equals(livro) && e.obterExemplar().obterStatus()).findFirst();
+        Optional<IEmprestimo> emprestimoVigenteOpt = emprestimosAtivos.stream().filter(e -> e.obterLivro().equals(livro) && e.obterExemplar().obterStatus()).findFirst();
 
         if (!emprestimoVigenteOpt.isPresent()) {
             Console.mostrarMensagem("O professor " + nome + " não possui um empréstimo em curso para o livro '" + livro.obterTitulo() + "'.");
@@ -74,6 +80,7 @@ public class Professor implements IUsuario, IObserver {
         IExemplar exemplarDevolvido = emprestimo.obterExemplar();
 
         exemplarDevolvido.removerEmprestimo();
+        this.emprestimosAtivos.remove(emprestimo);
         
         Console.mostrarMensagem("Devolução do livro '" + livro.obterTitulo() + "' (exemplar: " + exemplarDevolvido.obterCodigo() + ") por Professor " + nome + " realizada com sucesso em " + LocalDate.now() + ".");
         return true;
@@ -82,14 +89,14 @@ public class Professor implements IUsuario, IObserver {
 
     @Override
     public IReserva realizarReserva(ILivro livro){
-        boolean jaTemReserva = reservasSolicitadas.stream().anyMatch(r -> r.obterLivro().equals(livro));
+        boolean jaTemReserva = reservasAtivas.stream().anyMatch(r -> r.obterLivro().equals(livro));
 
         if (jaTemReserva) {
             Console.mostrarMensagem("Não foi possível realizar a reserva. O professor " + nome + " já possui uma reserva para o livro '" + livro.obterTitulo() + "'.");
             return null;
         }
 
-        boolean jaTemEmprestimoVigente = emprestimosRealizados.stream().filter(e -> e.obterExemplar().obterStatus()) .anyMatch(e -> e.obterLivro().equals(livro));
+        boolean jaTemEmprestimoVigente = emprestimosAtivos.stream().filter(e -> e.obterExemplar().obterStatus()) .anyMatch(e -> e.obterLivro().equals(livro));
 
         if (jaTemEmprestimoVigente) {
             Console.mostrarMensagem("Não foi possível realizar a reserva, pois o professor já tem um exemplar deste mesmo livro em empréstimo no momento.");
@@ -98,6 +105,7 @@ public class Professor implements IUsuario, IObserver {
 
         IReserva novaReserva = FabricaFuncionalidades.criarReserva(livro, this); 
         this.reservasSolicitadas.add(novaReserva);
+        this.reservasAtivas.add(novaReserva);
 
         Console.mostrarMensagem("Reserva do livro '" + livro.obterTitulo() + "' para Professor " + nome + " realizada com sucesso em " + LocalDate.now() + ".");
         return novaReserva;
@@ -106,38 +114,38 @@ public class Professor implements IUsuario, IObserver {
 
     @Override
     public void cancelarReserva(ILivro livro) {
-        Optional<IReserva> reservaOpt = reservasSolicitadas.stream().filter(r -> r.obterLivro().equals(livro)).findFirst();
+        Optional<IReserva> reservaOpt = reservasAtivas.stream().filter(r -> r.obterLivro().equals(livro)).findFirst();
 
         if (reservaOpt.isPresent()) {
             IReserva reserva = reservaOpt.get();
-            reservasSolicitadas.remove(reserva);
+            reservasAtivas.remove(reserva);
             Console.mostrarMensagem("Reserva do livro '" + livro.obterTitulo() + "' para o Professor " + nome + " cancelada.");
         }
     }
 
     @Override
     public ArrayList<IReserva> obterReservas() {
-        return this.reservasSolicitadas;
+        return this.reservasAtivas;
     }
 
     @Override
     public List<IEmprestimo> obterEmprestimosVigentes() { 
-        return this.emprestimosRealizados.stream().filter(e -> !e.obterExemplar().obterStatus()).collect(Collectors.toList()); 
+        return this.emprestimosAtivos.stream().filter(e -> !e.obterExemplar().obterStatus()).collect(Collectors.toList()); 
     }
 
     @Override
     public ArrayList<IEmprestimo> obterEmprestimosSolicitados() {
-        return this.emprestimosRealizados;
+        return this.emprestimosSolicitados;
     }
 
     @Override
     public int obterQuantidadeEmprestimosVigentes() {
-        return obterEmprestimosVigentes().size();
+        return this.emprestimosAtivos.size();
     }
 
     @Override
     public int obterQuantidadeEmprestimosSolicitados() {
-        return obterEmprestimosSolicitados().size();
+        return this.emprestimosSolicitados.size();
     }
 
     @Override
@@ -152,15 +160,15 @@ public class Professor implements IUsuario, IObserver {
     
     @Override
     public String obterExemplarEmprestado(ILivro livro) {
-        Optional<IEmprestimo> emprestimoOpt = emprestimosRealizados.stream().filter(e -> e.obterExemplar().obterStatus() && e.obterLivro().equals(livro)).findFirst();
+        Optional<IEmprestimo> emprestimoOpt = emprestimosAtivos.stream().filter(e -> e.obterExemplar().obterStatus() && e.obterLivro().equals(livro)).findFirst();
         return emprestimoOpt.isPresent() ? emprestimoOpt.get().obterExemplar().obterCodigo() : null;
     }
 
     @Override
     public String obterStatusEmprestimo(IEmprestimo emprestimo) {
-        if (this.emprestimosRealizados.contains(emprestimo)) {
+        if (this.emprestimosAtivos.contains(emprestimo)) {
             return "Vigente";
-        } else if (this.emprestimosRealizados.contains(emprestimo)) {
+        } else if (this.emprestimosSolicitados.contains(emprestimo)) {
             return "Finalizado";
         } else {
             return "Não encontrado";
@@ -172,13 +180,12 @@ public class Professor implements IUsuario, IObserver {
     }
 
     @Override
-    public void notificar(String mensagem) {
-        totalNotificacoes++;
-        Console.mostrarMensagem("Professor " + nome + " foi notificado: " + mensagem);
+    public void notificar() {
+        this.totalNotificacoes += 1;
     }
 
     public int getTotalNotificacoes() {
-        return totalNotificacoes;
+        return this.totalNotificacoes;
     }
 
 }
