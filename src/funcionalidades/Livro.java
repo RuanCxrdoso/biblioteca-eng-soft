@@ -14,15 +14,17 @@ public class Livro implements ILivro, ISubject {
     private String titulo;
     private String editora;
     private String autores;
+    private String edicao;
     private int anoPublicacao;
     private List<IExemplar> listaExemplares;
     private List<IReserva> listaReservas;
     private List<IObserver> observadores;
 
-    public Livro(String codigo, String titulo, String editora, String autores, int anoPublicacao) {
+    public Livro(String codigo, String titulo, String editora, String edicao, String autores, int anoPublicacao) {
         this.codigo = codigo;
         this.titulo = titulo;
         this.editora = editora;
+        this.editora = edicao;
         this.autores = autores;
         this.anoPublicacao = anoPublicacao;
         this.listaExemplares = new ArrayList<>();
@@ -44,6 +46,12 @@ public class Livro implements ILivro, ISubject {
     public String obterEditora() {
         return editora;
     }
+
+    @Override
+    public String obterEdicao() {
+        return edicao;
+    }
+
 
     @Override
     public String obterAutor() {
