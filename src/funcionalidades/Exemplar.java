@@ -2,7 +2,7 @@ package src.funcionalidades;
 
 import java.time.LocalDate;
 
-import src.funcionalidades.usuarios.console.Console;
+import src.biblioteca.Console;
 import src.interfaces.IEmprestimo;
 import src.interfaces.IExemplar;
 import src.interfaces.ILivro;

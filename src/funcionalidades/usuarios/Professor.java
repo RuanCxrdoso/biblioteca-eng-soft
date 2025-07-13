@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import src.biblioteca.Console;
 import src.funcionalidades.Emprestimo;
 import src.funcionalidades.Reserva;
 import src.funcionalidades.usuarios.limitacoes.MaximoLimiteTempo;
@@ -17,7 +18,6 @@ import src.interfaces.ILivro;
 import src.interfaces.IObserver;
 import src.interfaces.IReserva;
 import src.interfaces.IValidadorEmprestimo;
-import src.funcionalidades.usuarios.console.Console;
 
 public class Professor implements IUsuario {
     private String nome;
