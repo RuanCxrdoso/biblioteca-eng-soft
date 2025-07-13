@@ -1,13 +1,13 @@
 package src.funcionalidades.usuarios.validadores.verificadores;
 
-import src.interfaces.IEmprestimo;
-import src.interfaces.ILivro;
+import src.funcionalidades.Emprestimo;
+import src.funcionalidades.Livro;
 import src.interfaces.IUsuario;
 import src.interfaces.IVerificadorEmprestimosVigentes;
 
 public class VerificadorEmprestimosVigentes implements IVerificadorEmprestimosVigentes {
-    public boolean verificarEmprestimosVigentes(IUsuario usuario, ILivro livro) {
-      for (IEmprestimo emprestimo: usuario.obterEmprestimosVigentes()) {
+    public boolean verificarEmprestimosVigentes(IUsuario usuario, Livro livro) {
+      for (Emprestimo emprestimo: usuario.obterEmprestimosVigentes()) {
           if (emprestimo.obterLivro().equals(livro)) {
               return false;
           }

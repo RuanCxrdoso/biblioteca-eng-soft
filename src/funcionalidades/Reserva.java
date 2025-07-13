@@ -2,16 +2,15 @@ package src.funcionalidades;
 
 import java.time.LocalDate;
 
-import src.interfaces.ILivro;
 import src.interfaces.IReserva;
 import src.interfaces.IUsuario;
 
 public class Reserva implements IReserva {
-    private ILivro livro;
+    private Livro livro;
     private IUsuario usuario;
     private LocalDate dataReserva;
 
-    public Reserva(ILivro livro, IUsuario usuario) {
+    public Reserva(Livro livro, IUsuario usuario) {
         this.livro = livro;
         this.usuario = usuario;
         this.dataReserva = LocalDate.now();
@@ -25,7 +24,7 @@ public class Reserva implements IReserva {
         return this.usuario.obterNome();
     }
 
-    public ILivro obterLivro() {
+    public Livro obterLivro() {
         return this.livro;
     }
 

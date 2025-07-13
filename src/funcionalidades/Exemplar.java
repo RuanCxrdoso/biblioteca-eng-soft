@@ -3,39 +3,32 @@ package src.funcionalidades;
 import java.time.LocalDate;
 
 import src.biblioteca.Console;
-import src.interfaces.IEmprestimo;
-import src.interfaces.IExemplar;
-import src.interfaces.ILivro;
 
-public class Exemplar implements IExemplar {
+public class Exemplar {
   private String codigo;
   private boolean status;
-  private ILivro livro;
-  private IEmprestimo emprestimo;
+  private Livro livro;
+  private Emprestimo emprestimo;
 
-  public Exemplar(String codigo, ILivro livro) {
+  public Exemplar(String codigo, Livro livro) {
     this.codigo = codigo;
     this.livro = livro;
     this.status = true; // Exemplar disponível por padrão
     this.emprestimo = null;
   }
 
-  @Override
-  public ILivro obterLivro() {
+  public Livro obterLivro() {
     return this.livro;
   }
 
-  @Override
   public String obterCodigo() {
     return this.codigo;
   }
 
-  @Override
   public boolean obterStatus() {
     return this.status;
   }
 
-  @Override
   public String obterNomeUsuarioEmprestimo() {
       if (this.emprestimo != null) {
           return this.emprestimo.obterNomeUsuario();
@@ -46,7 +39,6 @@ public class Exemplar implements IExemplar {
       return null;
   }
 
-  @Override
   public LocalDate obterDataEmprestimo() {
       if (this.emprestimo != null) {
           return this.emprestimo.obterDataEmprestimo();
@@ -57,7 +49,6 @@ public class Exemplar implements IExemplar {
       return null;
   }
 
-  @Override
   public LocalDate obterDataRetorno() {
       if (this.emprestimo != null) {
           return this.emprestimo.obterDataRetorno();
@@ -68,12 +59,10 @@ public class Exemplar implements IExemplar {
       return null;
   }
 
-  @Override
   public String obterStatusNome() {
     return this.status ? "Disponível" : "Indisponível";
   }
 
-  @Override
   public void removerEmprestimo() {
     if (this.emprestimo != null) {
       this.emprestimo = null;
@@ -83,8 +72,7 @@ public class Exemplar implements IExemplar {
     }
   }
 
-  @Override
-  public void adicionarEmprestimo(IEmprestimo emprestimo) {
+  public void adicionarEmprestimo(Emprestimo emprestimo) {
     if (this.status) {
       this.emprestimo = emprestimo;
       this.status = false;
@@ -93,12 +81,10 @@ public class Exemplar implements IExemplar {
     }
   }
 
-  @Override
   public void setStatus(boolean status) {
     this.status = status;
   }
 
-  @Override
   public String obterTituloLivro() {
     return this.livro.obterTitulo();
   }

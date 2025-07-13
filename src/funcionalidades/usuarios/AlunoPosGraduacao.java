@@ -3,13 +3,13 @@ package src.funcionalidades.usuarios;
 import java.util.ArrayList;
 
 import src.biblioteca.Console;
+import src.funcionalidades.Emprestimo;
+import src.funcionalidades.Exemplar;
 import src.funcionalidades.FabricaFuncionalidades;
+import src.funcionalidades.Livro;
 import src.funcionalidades.usuarios.limitacoes.MaximoLimiteEmprestimos;
 import src.funcionalidades.usuarios.limitacoes.MaximoLimiteTempo;
 import src.interfaces.IAluno;
-import src.interfaces.IEmprestimo;
-import src.interfaces.IExemplar;
-import src.interfaces.ILivro;
 import src.interfaces.IReserva;
 import src.interfaces.IValidadorEmprestimo;
 
@@ -21,8 +21,8 @@ public class AlunoPosGraduacao implements IAluno {
   private IValidadorEmprestimo validadorEmprestimo;
   private ArrayList<IReserva> reservasSolicitadas;
   private ArrayList<IReserva> reservasAtivas;
-  private ArrayList<IEmprestimo> emprestimosSolicitados;
-  private ArrayList<IEmprestimo> emprestimosVigentes;
+  private ArrayList<Emprestimo> emprestimosSolicitados;
+  private ArrayList<Emprestimo> emprestimosVigentes;
 
   public AlunoPosGraduacao(String nome, String id) {
   this.nome = nome;
@@ -37,12 +37,12 @@ public class AlunoPosGraduacao implements IAluno {
   }
 
   @Override
-  public boolean solicitarEmprestimo(ILivro livro) {
+  public boolean solicitarEmprestimo(Livro livro) {
     if (this.validadorEmprestimo.validarEmprestimo(this, livro)) {
-      IExemplar exemplar = livro.obterExemplarDisponivel();
+      Exemplar exemplar = livro.obterExemplarDisponivel();
       exemplar.setStatus(false); // exemplar fica indisponível após o empréstimo
 
-      IEmprestimo emprestimo = FabricaFuncionalidades.criaEmprestimo(exemplar, this, tempoMaximoEmprestimo);
+      Emprestimo emprestimo = FabricaFuncionalidades.criaEmprestimo(exemplar, this, tempoMaximoEmprestimo);
       
       exemplar.adicionarEmprestimo(emprestimo); // Registra o empréstimo no exemplar
       this.emprestimosSolicitados.add(emprestimo);
@@ -60,8 +60,8 @@ public class AlunoPosGraduacao implements IAluno {
   }
 
   @Override
-  public boolean devolverLivro(ILivro livro) {
-    for (IEmprestimo emprestimo: this.emprestimosVigentes) {
+  public boolean devolverLivro(Livro livro) {
+    for (Emprestimo emprestimo: this.emprestimosVigentes) {
       if (emprestimo.obterLivro().equals(livro)) {
         emprestimo.excluirExemplar();
         this.emprestimosVigentes.remove(emprestimo);
@@ -78,7 +78,7 @@ public class AlunoPosGraduacao implements IAluno {
   }
 
   @Override
-  public IReserva realizarReserva(ILivro livro) {
+  public IReserva realizarReserva(Livro livro) {
     if (this.reservasAtivas.size() <= 7) {
       IReserva reserva = FabricaFuncionalidades.criarReserva(livro, this);
       this.reservasSolicitadas.add(reserva);
@@ -95,7 +95,7 @@ public class AlunoPosGraduacao implements IAluno {
   }
 
   @Override
-  public void cancelarReserva(ILivro livro) {
+  public void cancelarReserva(Livro livro) {
     for (IReserva reserva: this.reservasAtivas) {
       if (reserva.obterLivro().equals(livro)) {
         this.reservasAtivas.remove(reserva);
@@ -115,12 +115,12 @@ public class AlunoPosGraduacao implements IAluno {
   }
 
   @Override
-  public ArrayList<IEmprestimo> obterEmprestimosVigentes() {
+  public ArrayList<Emprestimo> obterEmprestimosVigentes() {
     return this.emprestimosVigentes;
   }
 
   @Override
-  public ArrayList<IEmprestimo> obterEmprestimosSolicitados() {
+  public ArrayList<Emprestimo> obterEmprestimosSolicitados() {
     return this.emprestimosSolicitados;
   }
 
@@ -145,8 +145,8 @@ public class AlunoPosGraduacao implements IAluno {
   }
 
   @Override
-  public String obterExemplarEmprestado(ILivro livro) {
-    for (IEmprestimo emprestimo: this.emprestimosVigentes) {
+  public String obterExemplarEmprestado(Livro livro) {
+    for (Emprestimo emprestimo: this.emprestimosVigentes) {
       if (emprestimo.obterLivro().equals(livro)) {
         return emprestimo.obterExemplar().obterCodigo();
       }
@@ -158,7 +158,7 @@ public class AlunoPosGraduacao implements IAluno {
   }
 
   @Override
-  public String obterStatusEmprestimo(IEmprestimo emprestimo) {
+  public String obterStatusEmprestimo(Emprestimo emprestimo) {
     if (this.emprestimosVigentes.contains(emprestimo)) {
       return "Vigente";
     } else if (this.emprestimosSolicitados.contains(emprestimo)) {
