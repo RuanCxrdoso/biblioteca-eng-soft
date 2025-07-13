@@ -29,9 +29,9 @@ public class Biblioteca {
     }
 
     public void inicializarBiblioteca() {
-        usuarios.add(new AlunoGraduacao("123", "João da Silva"));
-        usuarios.add(new AlunoPosGraduacao("456", "Luiz Fernando Rodrigues"));
-        usuarios.add(new AlunoGraduacao("789", "Pedro Paulo"));
+        usuarios.add(new AlunoGraduacao("João da Silva", "123"));
+        usuarios.add(new AlunoPosGraduacao("Luiz Fernando Rodrigues", "456"));
+        usuarios.add(new AlunoGraduacao("Pedro Paulo", "789"));
         usuarios.add(new Professor("100", "Carlos Lucena"));
 
         livros.add(new Livro("100", "Engenharia de Software","Addison Wesley", "6°", "Ian Sommerville", 2000));

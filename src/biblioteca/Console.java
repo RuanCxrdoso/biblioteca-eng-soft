@@ -17,7 +17,11 @@ import src.interfaces.IComando;
 public class Console {
     private Map<String, IComando> comandos = new HashMap<String, IComando>();
 
-    public void registrarComandos(String nome, IComando comando) {
+    public Console() {
+        this.registrarComandos();
+    }
+
+    public void registrarComandos() {
         this.comandos.put("emp", new SolicitarEmprestimo());
         this.comandos.put("dev", new RetornarLivro());
         this.comandos.put("res", new ReservarLivro());
