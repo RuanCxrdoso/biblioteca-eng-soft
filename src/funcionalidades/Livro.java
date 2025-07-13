@@ -2,12 +2,11 @@ package src.funcionalidades;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import src.interfaces.IExemplar;
+import src.interfaces.ILivro;
 import src.interfaces.IObserver;
 import src.interfaces.IReserva;
 import src.interfaces.ISubject;
-import src.interfaces.IExemplar;
-import src.interfaces.ILivro;
 
 public class Livro implements ILivro, ISubject {
     private String codigo;
@@ -24,7 +23,7 @@ public class Livro implements ILivro, ISubject {
         this.codigo = codigo;
         this.titulo = titulo;
         this.editora = editora;
-        this.editora = edicao;
+        this.edicao = edicao;
         this.autores = autores;
         this.anoPublicacao = anoPublicacao;
         this.listaExemplares = new ArrayList<>();
