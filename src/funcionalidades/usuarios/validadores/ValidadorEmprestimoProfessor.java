@@ -20,7 +20,7 @@ public class ValidadorEmprestimoProfessor implements IValidadorEmprestimo{
     @Override
     public boolean validarEmprestimo(IUsuario usuario, Livro livro) {
 
-        if (verificadorAtraso.verificarAtraso(usuario)) {
+        if (!verificadorAtraso.verificarAtraso(usuario)) {
             Console.mostrarMensagem("\nO usuário " + usuario.obterNome()+ " possui empréstimo em atraso! Impossível realizar novo empréstimo.");
             return false;
         }

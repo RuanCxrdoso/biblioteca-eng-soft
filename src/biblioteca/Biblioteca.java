@@ -63,7 +63,7 @@ public class Biblioteca {
 
         if (livro.temExemplarDisponivel()) {
             if (usuario.solicitarEmprestimo(livro)) {
-                mensagem = "\nSolicitação de empréstimo  do livro " + livro.obterTitulo() + " para o usuário " + usuario.obterNome() + "finalizada com sucesso!";
+                mensagem = "\nSolicitação de empréstimo  do livro " + livro.obterTitulo() + " para o usuário " + usuario.obterNome() + " finalizada com sucesso!";
   
                 Console.mostrarMensagem(mensagem);
             }
@@ -77,32 +77,15 @@ public class Biblioteca {
     public void reservarLivro(String codigoUsuario, String codigoLivro) {
         IUsuario usuario = obterUsuario(codigoUsuario);
         Livro livro = obterLivro(codigoLivro);
-        String mensagem;
+        // String mensagem;
+
+        IReserva reserva = usuario.realizarReserva(livro);
     
-        if (livro.temExemplarDisponivel()) {
-            if (livro.obterQntdExemplares() > livro.obterQntdReservas()) {
-                IReserva reserva = usuario.realizarReserva(livro);
+        if (reserva != null) {
+            livro.adicionarReserva(reserva);
 
-                if (reserva != null) {
-                    livro.adicionarReserva(reserva);
-
-                    mensagem = "\nReserva realizada: " + usuario.obterNome() + " fez uma reserva para o livro " + livro.obterTitulo() + ".";
-
-                    Console.mostrarMensagem(mensagem);
-                } else {
-                    mensagem = "\nO usuário " + usuario.obterNome() + " atingiu o número máximo permitido de reservas.";
-
-                    Console.mostrarMensagem(mensagem);
-                }
-            } else {
-                mensagem = "\nNão há exemplares disponíveis para reserva do livro " + livro.obterTitulo() + ".";
-
-                Console.mostrarMensagem(mensagem);
-            }
-        } else {
-            mensagem = "\nTodos os exemplares do livro " + livro.obterTitulo() + " estão indisponíveis no momento.";
-
-            Console.mostrarMensagem(mensagem);
+            // mensagem = "\nReserva para o livro '" + livro.obterTitulo() + " realizada com sucesso por " + usuario.obterNome() + ".";
+            // Console.mostrarMensagem(mensagem);
         }
     }
 

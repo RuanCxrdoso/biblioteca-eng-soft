@@ -45,7 +45,7 @@ public class Professor implements IUsuario, IObserver {
             Optional<Exemplar> exemplarOpt = livro.obterExemplares().stream().filter(Exemplar::obterStatus) .findFirst();
 
             if (!exemplarOpt.isPresent()) {
-                Console.mostrarMensagem("\nErro interno: Nenhum exemplar disponível após validação para" + nome + "!" + "Contate o suporte.");
+                Console.mostrarMensagem("\nErro interno: Nenhum exemplar disponível após validação para" + nome + "!");
                 return false;
             }
 
@@ -70,7 +70,7 @@ public class Professor implements IUsuario, IObserver {
 
     @Override
     public boolean devolverLivro(Livro livro) {
-        Optional<Emprestimo> emprestimoVigenteOpt = emprestimosAtivos.stream().filter(e -> e.obterLivro().equals(livro) && e.obterExemplar().obterStatus()).findFirst();
+        Optional<Emprestimo> emprestimoVigenteOpt = emprestimosAtivos.stream().filter(e -> e.obterLivro().equals(livro) && !e.obterExemplar().obterStatus()).findFirst();
 
         if (!emprestimoVigenteOpt.isPresent()) {
             Console.mostrarMensagem("O professor " + nome + " não possui um empréstimo em curso para o livro '" + livro.obterTitulo() + "'.");
@@ -188,6 +188,4 @@ public class Professor implements IUsuario, IObserver {
     public int obterQntdTotalNotificacoes() {
         return this.totalNotificacoes;
     }
-
 }
-

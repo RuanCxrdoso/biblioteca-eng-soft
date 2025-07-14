@@ -14,6 +14,7 @@ public class Emprestimo {
         this.exemplar = exemplar;
         this.usuario = usuario;
         this.dataEmprestimo = LocalDate.now();
+        // this.dataRetorno = LocalDate.now().minusDays(10); // Para testar falha ao soliciar empréstimo possuindo outro empréstimo atrasado
         this.dataRetorno = dataEmprestimo.plusDays(tempoMaximoEmprestimo);
     }
 

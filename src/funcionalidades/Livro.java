@@ -71,12 +71,9 @@ public class Livro implements ISubject {
     }
 
     public boolean temExemplarNaoReservado() {
-        for (Exemplar exemplar: listaExemplares) {
-            if (exemplar.obterStatus()) {
-                return true;
-            }
-        }
-        return false;
+        long exemplaresDisponiveis = this.listaExemplares.stream().filter(e -> e.obterStatus() == true).count();
+
+        return exemplaresDisponiveis > this.listaReservas.size();
     }
 
     public void definirExemplarDisponivel(String codigoExemplar) {

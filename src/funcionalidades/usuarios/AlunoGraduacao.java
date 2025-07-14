@@ -40,7 +40,6 @@ public class AlunoGraduacao implements IAluno {
   public boolean solicitarEmprestimo(Livro livro) {
     if (this.validadorEmprestimo.validarEmprestimo(this, livro)) {
       Exemplar exemplar = livro.obterExemplarDisponivel();
-      exemplar.setStatus(false); // exemplar fica indisponível após o empréstimo
 
       Emprestimo emprestimo = FabricaFuncionalidades.criaEmprestimo(exemplar, this, tempoMaximoEmprestimo);
       
@@ -79,19 +78,26 @@ public class AlunoGraduacao implements IAluno {
 
   @Override
   public IReserva realizarReserva(Livro livro) {
-    if (this.reservasAtivas.size() <= 5) {
-      IReserva reserva = FabricaFuncionalidades.criarReserva(livro, this);
-      this.reservasSolicitadas.add(reserva);
-      this.reservasAtivas.add(reserva);
+    boolean jaTemReserva = reservasAtivas.stream().anyMatch(r -> r.obterLivro().equals(livro));
 
-      Console.mostrarMensagem("\nO usuário " + nome + " realizou a reserva do livro " + livro.obterTitulo() + "!");
+    if (jaTemReserva) {
+      Console.mostrarMensagem("\nO usuário " + nome + " já possui uma reserva ativa para o livro " + livro.obterTitulo() + "!");
 
-      return reserva;
+      return null;
+    } else if (this.reservasAtivas.size() >= 5) {
+      Console.mostrarMensagem("\nO usuário " + nome + " não pode realizar mais reservas! Limite de 5 reservas ativas atingido.");
+
+      return null;
     }
+  
 
-    Console.mostrarMensagem("\nO usuário " + nome + " não pode realizar mais reservas! Limite de 5 reservas ativas atingido.");
+    IReserva reserva = FabricaFuncionalidades.criarReserva(livro, this);
+    this.reservasSolicitadas.add(reserva);
+    this.reservasAtivas.add(reserva);
 
-    return null;
+    Console.mostrarMensagem("\nO usuário " + nome + " realizou a reserva do livro " + livro.obterTitulo() + "!");
+
+    return reserva;
   }
 
   @Override

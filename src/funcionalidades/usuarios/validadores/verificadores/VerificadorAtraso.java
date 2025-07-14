@@ -9,11 +9,11 @@ import src.interfaces.IVerificadorAtraso;
 public class VerificadorAtraso implements IVerificadorAtraso {
   public boolean verificarAtraso(IUsuario usuario) {
       for (Emprestimo emprestimo: usuario.obterEmprestimosVigentes()) {
-          if(LocalDate.now().isBefore(emprestimo.obterDataRetorno())) {
-              return true;
+          if (LocalDate.now().isAfter(emprestimo.obterDataRetorno())) {
+              return false;
           }
       }
 
-      return false;
+      return true;
   }
 }

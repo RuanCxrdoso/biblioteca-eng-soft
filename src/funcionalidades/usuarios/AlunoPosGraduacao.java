@@ -40,7 +40,6 @@ public class AlunoPosGraduacao implements IAluno {
   public boolean solicitarEmprestimo(Livro livro) {
     if (this.validadorEmprestimo.validarEmprestimo(this, livro)) {
       Exemplar exemplar = livro.obterExemplarDisponivel();
-      exemplar.setStatus(false); // exemplar fica indisponível após o empréstimo
 
       Emprestimo emprestimo = FabricaFuncionalidades.criaEmprestimo(exemplar, this, tempoMaximoEmprestimo);
       

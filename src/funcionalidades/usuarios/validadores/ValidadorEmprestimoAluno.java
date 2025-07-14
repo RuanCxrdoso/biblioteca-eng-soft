@@ -25,7 +25,7 @@ public class ValidadorEmprestimoAluno implements IValidadorEmprestimo {
   }
 
   public boolean validarEmprestimo(IUsuario usuario, Livro livro) {
-    if (verificadorAtraso.verificarAtraso(usuario)) {
+    if (!verificadorAtraso.verificarAtraso(usuario)) {
       Console.mostrarMensagem("\nO usuário " + usuario.obterNome() + " possui emprestimo com atraso de devolução!");
 
       return false;
@@ -50,7 +50,7 @@ public class ValidadorEmprestimoAluno implements IValidadorEmprestimo {
       return false;
     }
 
-    Console.mostrarMensagem("\nO usuário " + usuario.obterNome() + " pode solicitar o emprestimo do livro " + livro.obterTitulo() + "!");
+    Console.mostrarMensagem("\nO usuário " + usuario.obterNome() + " pode solicitar o empréstimo do livro " + livro.obterTitulo() + "!");
 
     return true;
   }
