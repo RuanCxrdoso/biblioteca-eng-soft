@@ -1,7 +1,7 @@
 package src.funcionalidades.usuarios;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-
 import src.biblioteca.Console;
 import src.funcionalidades.Emprestimo;
 import src.funcionalidades.Exemplar;
@@ -81,7 +81,7 @@ public class AlunoGraduacao implements IAluno {
     boolean jaTemReserva = reservasAtivas.stream().anyMatch(r -> r.obterLivro().equals(livro));
 
     if (jaTemReserva) {
-      Console.mostrarMensagem("\nO usuário " + nome + " já possui uma reserva ativa para o livro " + livro.obterTitulo() + "!");
+      Console.mostrarMensagem("\nO usuário " + nome + " já possui uma reserva ativa para o livro " + livro.obterTitulo() + LocalDate.now() + "!");
 
       return null;
     } else if (this.reservasAtivas.size() >= 5) {

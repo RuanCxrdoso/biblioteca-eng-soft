@@ -1,7 +1,7 @@
 package src.funcionalidades.usuarios;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-
 import src.biblioteca.Console;
 import src.funcionalidades.Emprestimo;
 import src.funcionalidades.Exemplar;
@@ -83,7 +83,7 @@ public class AlunoPosGraduacao implements IAluno {
       this.reservasSolicitadas.add(reserva);
       this.reservasAtivas.add(reserva);
 
-      Console.mostrarMensagem("\nO usuário " + nome + " realizou a reserva do livro " + livro.obterTitulo() + "!");
+      Console.mostrarMensagem("\nO usuário " + nome + " realizou a reserva do livro " + livro.obterTitulo() + LocalDate.now() + "!");
 
       return reserva;
     }

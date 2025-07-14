@@ -2,7 +2,6 @@ package src.funcionalidades;
 
 import java.util.ArrayList;
 import java.util.List;
-import src.funcionalidades.Livro;
 import src.interfaces.IObserver;
 import src.interfaces.IReserva;
 import src.interfaces.ISubject;
@@ -106,18 +105,19 @@ public class Livro implements ISubject {
     }
 
     public void removerReserva(IUsuario usuario) {
-    IReserva reservaParaRemover = null;
+        IReserva reservaParaRemover = null;
 
-    for (IReserva reserva : this.listaReservas) {
-        if (reserva.obterUsuario().equals(usuario)) {
-            reservaParaRemover = reserva;
-            break;
+        for (IReserva reserva : this.listaReservas) { 
+            if (reserva.obterUsuario().obterId().equals(usuario.obterId())) {
+                reservaParaRemover = reserva;
+                break;
+            } 
+        } 
+
+        if (reservaParaRemover != null) {
+            this.listaReservas.remove(reservaParaRemover);
         }
     }
-    if (reservaParaRemover != null) {
-        this.listaReservas.remove(reservaParaRemover);
-    }
-}
 
     public void registrarObserver(IObserver observer) {
         observadores.add(observer);
