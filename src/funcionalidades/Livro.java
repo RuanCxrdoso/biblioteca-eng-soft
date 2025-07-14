@@ -6,6 +6,7 @@ import src.funcionalidades.Livro;
 import src.interfaces.IObserver;
 import src.interfaces.IReserva;
 import src.interfaces.ISubject;
+import src.interfaces.IUsuario;
 
 public class Livro implements ISubject {
     private String codigo;
@@ -79,7 +80,7 @@ public class Livro implements ISubject {
     public void definirExemplarDisponivel(String codigoExemplar) {
         for (Exemplar exemplar : listaExemplares) {
             if (exemplar.obterCodigo().equals(codigoExemplar)) {
-                exemplar.setStatus(false);
+                exemplar.setStatus(true);
             }
         }
     }
@@ -103,6 +104,20 @@ public class Livro implements ISubject {
             notificarObservadores();
         }
     }
+
+    public void removerReserva(IUsuario usuario) {
+    IReserva reservaParaRemover = null;
+
+    for (IReserva reserva : this.listaReservas) {
+        if (reserva.obterUsuario().equals(usuario)) {
+            reservaParaRemover = reserva;
+            break;
+        }
+    }
+    if (reservaParaRemover != null) {
+        this.listaReservas.remove(reservaParaRemover);
+    }
+}
 
     public void registrarObserver(IObserver observer) {
         observadores.add(observer);

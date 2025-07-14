@@ -33,9 +33,9 @@ public class Console {
     }
 
     public void sistema() {
-        Biblioteca biblioteca;
-        biblioteca = Biblioteca.obterInstanciaUnica();
-        biblioteca.inicializarBiblioteca();
+        Repositorio biblioteca;
+        biblioteca = Repositorio.obterInstanciaUnica();
+        biblioteca.inicializarRepositorio();
 
         Scanner teclado = new Scanner(System.in);
 

@@ -1,4 +1,4 @@
-# 📚 Sistema de Gerenciamento de Biblioteca Acadêmica
+# 📚 Sistema de Gerenciamento de Repositorio Acadêmica
 
 ## 🧾 Descrição Geral
 

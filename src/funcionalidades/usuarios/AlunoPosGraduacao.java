@@ -95,17 +95,19 @@ public class AlunoPosGraduacao implements IAluno {
 
   @Override
   public void cancelarReserva(Livro livro) {
-    for (IReserva reserva: this.reservasAtivas) {
-      if (reserva.obterLivro().equals(livro)) {
-        this.reservasAtivas.remove(reserva);
-
-        Console.mostrarMensagem("\nO usuário " + nome + " cancelou a reserva do livro " + livro.obterTitulo() + "!");
-
-        return;
+      IReserva reservaParaRemover = null;
+      for (IReserva reserva : this.reservasAtivas) {
+          if (reserva.obterLivro().equals(livro)) {
+              reservaParaRemover = reserva;
+              break;
+          }
       }
-    }
 
-    Console.mostrarMensagem("\nO usuário " + nome + " não possui reserva ativa para o livro " + livro.obterTitulo() + "!");
+      if (reservaParaRemover != null) {
+          this.reservasAtivas.remove(reservaParaRemover);
+          livro.removerReserva(this);
+          Console.mostrarMensagem("\nO usuário " + nome + " cancelou a reserva do livro " + livro.obterTitulo() + "!");
+      }
   }
 
   @Override

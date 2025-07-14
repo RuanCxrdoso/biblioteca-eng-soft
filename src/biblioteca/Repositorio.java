@@ -13,22 +13,22 @@ import src.interfaces.IObserver;
 import src.interfaces.IReserva;
 import src.interfaces.IUsuario;
 
-public class Biblioteca {
-    private Biblioteca() {};
+public class Repositorio {
+    private Repositorio() {};
 
-    private static Biblioteca biblioteca;
+    private static Repositorio biblioteca;
     private List<IUsuario> usuarios = new ArrayList<IUsuario>();
     private List<Livro> livros = new ArrayList<Livro>();
 
-    public static Biblioteca obterInstanciaUnica() {
+    public static Repositorio obterInstanciaUnica() {
         if (biblioteca == null) {
-            biblioteca = new Biblioteca();
+            biblioteca = new Repositorio();
         }
 
         return biblioteca;
     }
 
-    public void inicializarBiblioteca() {
+    public void inicializarRepositorio() {
         usuarios.add(new AlunoGraduacao("João da Silva", "123"));
         usuarios.add(new AlunoPosGraduacao("Luiz Fernando Rodrigues", "456"));
         usuarios.add(new AlunoGraduacao("Pedro Paulo", "789"));
