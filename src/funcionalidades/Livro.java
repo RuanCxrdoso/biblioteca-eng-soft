@@ -114,7 +114,7 @@ public class Livro implements ISubject {
 
     public void notificarObservadores() {
         for (IObserver observer : observadores) {
-            observer.notificar();
+            observer.notificar(this);
         }
     }
 

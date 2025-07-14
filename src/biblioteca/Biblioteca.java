@@ -128,8 +128,18 @@ public class Biblioteca {
         } else {
             Console.mostrarMensagem("\nO livro " + livro.obterTitulo() + " possui " + livro.obterQntdExemplares() + " exemplar(es) cadastrado(s).");
 
-            for (Exemplar exemplar: livro.obterExemplares()) {
-                Console.mostrarMensagem("Exemplar: " + exemplar.obterCodigo() + " - Disponível: " + exemplar.obterStatusNome() + "Nome do usuário: " + exemplar.obterNomeUsuarioEmprestimo() + " - Data de Empréstimo: " + exemplar.obterDataEmprestimo() + " - Data de Retorno: " + exemplar.obterDataRetorno());
+            for (Exemplar exemplar : livro.obterExemplares()) {
+                if (exemplar.obterStatus()) {
+                    Console.mostrarMensagem("Exemplar: " + exemplar.obterCodigo() + " - Status: Disponível");
+                } else {
+                    Console.mostrarMensagem(
+                        "Exemplar: " + exemplar.obterCodigo() +
+                        " - Status: Emprestado" +
+                        " | Usuário: " + exemplar.obterNomeUsuarioEmprestimo() +
+                        " | Data de Empréstimo: " + exemplar.obterDataEmprestimo() +
+                        " | Data de Devolução: " + exemplar.obterDataRetorno()
+                    );
+                }
             }
         }
     }

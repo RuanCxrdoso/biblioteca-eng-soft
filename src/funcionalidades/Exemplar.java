@@ -34,8 +34,6 @@ public class Exemplar {
           return this.emprestimo.obterNomeUsuario();
       }
 
-      Console.mostrarMensagem(codigo + " não possui empréstimo ativo.");
-
       return null;
   }
 
@@ -44,8 +42,6 @@ public class Exemplar {
           return this.emprestimo.obterDataEmprestimo();
       }
 
-      Console.mostrarMensagem(codigo + " não possui empréstimo ativo.");
-
       return null;
   }
 
@@ -53,8 +49,6 @@ public class Exemplar {
       if (this.emprestimo != null) {
           return this.emprestimo.obterDataRetorno();
       }
-
-      Console.mostrarMensagem(codigo + " não possui empréstimo ativo.");
 
       return null;
   }

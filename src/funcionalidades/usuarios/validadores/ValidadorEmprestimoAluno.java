@@ -33,19 +33,19 @@ public class ValidadorEmprestimoAluno implements IValidadorEmprestimo {
   
     // Necessariamente um usuário deve ser do tipo IAluno pois professores não tem limite de empréstimos
     if (!verificadorLimiteEmprestimos.verificarLimiteEmprestimos((IAluno) usuario)) {
-      Console.mostrarMensagem("\nO aluno " + usuario.obterNome() + " atingiu o máximo de emprestimos possiveis!");
+      Console.mostrarMensagem("\nO aluno " + usuario.obterNome() + " atingiu o máximo de empréstimos possiveis!");
 
       return false;
     }
 
     if (!verificadorEmprestimosVigentes.verificarEmprestimosVigentes(usuario, livro)) {
-      Console.mostrarMensagem("\nO usuário " + usuario.obterNome() + " já possui um emprestimo vigente do livro " + livro.obterTitulo() + "!");
+      Console.mostrarMensagem("\nO usuário " + usuario.obterNome() + " já possui um empréstimo vigente do livro " + livro.obterTitulo() + "!");
 
       return false;
     }
 
     if (!(verificadorReserva.verificarReserva(usuario, livro) || livro.temExemplarNaoReservado())) {
-      Console.mostrarMensagem("\nO usuário " + usuario.obterNome() + " não possui uma reserva ativa para o livro " + livro.obterTitulo() + "!");
+      Console.mostrarMensagem("\nO usuário " + usuario.obterNome() + " não possui uma reserva ativa para poder soliciar o empréstimo do livro " + livro.obterTitulo() + "!");
 
       return false;
     }

@@ -181,11 +181,17 @@ public class Professor implements IUsuario, IObserver {
     }
 
     @Override
-    public void notificar() {
+    public void notificar(Livro livro) {
         this.totalNotificacoes += 1;
+        Console.mostrarMensagem("\nNotificação para o professor " + this.obterNome() + ": O livro '" + livro.obterTitulo() + "' ultrapassou 2 reservas.");
     }
 
     public int obterQntdTotalNotificacoes() {
         return this.totalNotificacoes;
+    }
+    
+    @Override
+    public String toString() {
+        return this.nome;
     }
 }
